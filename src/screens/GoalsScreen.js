@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
-import { SafeAreaView, StatusBar, StyleSheet, View, ScrollView, TouchableOpacity, Text } from 'react-native';
+import { StatusBar, StyleSheet, View, ScrollView, TouchableOpacity, Text } from 'react-native';
 import { COLORS } from '../constants/colors';
 import CountdownTimer from '../components/CountdownTimer';
 import AddResolutionForm from '../components/AddResolutionForm';
 import ResolutionCard from '../components/ResolutionCard';
 import { useResolutions } from '../context/ResolutionsContext';
+import { SafeAreaView } from 'react-native-safe-area-context';
+
 
 export default function GoalsScreen() {
   const {
@@ -22,36 +24,26 @@ export default function GoalsScreen() {
   } = useResolutions();
 
   const [showAddForm, setShowAddForm] = useState(false);
-
+  const year = new Date().getFullYear();
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor={COLORS.background} />
 
       <View style={styles.header}>
         <View style={styles.headerTop}>
-          <Text style={styles.title}>Goals</Text>
+          <Text style={styles.title}>Goals: </Text>
+
           <View style={styles.streakBadge}>
-            <Text style={styles.streakText}>{streak}</Text>
+            <Text style={styles.streakText}>{streak} </Text>
           </View>
+            <Text style={styles.yearText}>{year}</Text>
+
           <View></View>
         </View>
         <CountdownTimer />
       </View>
 
-      <View style={styles.categoryBar}>
-        {['All', 'General', 'Study', 'Health', 'Personal'].map(cat => (
-          <TouchableOpacity
-            key={cat}
-            onPress={() => setActiveCategory(cat)}
-            style={[
-              styles.categoryChip,
-              activeCategory === cat && styles.activeCategory
-            ]}
-          >
-            <Text style={styles.categoryText}>{cat}</Text>
-          </TouchableOpacity>
-        ))}
-      </View>
+
 
       <ScrollView style={styles.content}>
         {!showAddForm && (
@@ -106,11 +98,11 @@ const styles = StyleSheet.create({
   headerTop: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 },
   title: { fontSize: 24, fontWeight: 'bold', color: COLORS.text },
   streakBadge: {
-    paddingHorizontal: 12,
+    paddingHorizontal: 20,
     paddingVertical: 6,
     borderRadius: 20,
     backgroundColor: 'rgba(251,146,60,0.18)',
-    borderWidth: 1,
+    borderWidth: 3,
     borderColor: 'rgba(251,146,60,0.25)',
   },
   streakText: { color: COLORS.orange, fontWeight: 'bold' },
@@ -133,6 +125,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginVertical: 16,
   },
+  yearText: { color: "white", fontSize: 39, fontWeight: 'bold' },
   addButtonText: { color: COLORS.text, fontWeight: '700' },
   emptyState: { paddingVertical: 40, alignItems: 'center' },
   emptyText: { color: COLORS.textSecondary, fontSize: 16, marginBottom: 8 },
