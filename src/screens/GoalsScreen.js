@@ -33,6 +33,7 @@ export default function GoalsScreen() {
           <View style={styles.streakBadge}>
             <Text style={styles.streakText}>{streak}</Text>
           </View>
+          <View></View>
         </View>
         <CountdownTimer />
       </View>
